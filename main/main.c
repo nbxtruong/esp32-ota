@@ -30,27 +30,22 @@
 #include "network.h"
 #include "ota_update.h"
 
-
 // *****************************************************
 // TODO - update these definitions for your environment!
 // *****************************************************
-#define AP_SSID             "accesspoint-name"
-#define AP_PASSWORD         "accesspoint-password"
+#define AP_SSID "TIC"
+#define AP_PASSWORD "T1cVi3tn@m"
 
-
-#define SOFTWARE_VERSION    "Factory-prepared"
-
+#define SOFTWARE_VERSION "1.0.0"
 
 #define TAG "main"
-
 
 int app_main(void)
 {
     ESP_LOGI(TAG, "intialization started");
     ESP_LOGI(TAG, "software version: %s", SOFTWARE_VERSION);
-    
-    nvs_flash_init();
 
+    nvs_flash_init();
 
     // Connect to an access point to receive OTA firmware updates.
 
@@ -59,24 +54,27 @@ int app_main(void)
 
     ESP_LOGI(TAG, "intialization completed");
 
-
     // This code assumes that there's an LED connected to GPIO 5 (sparkfun ESP32 Thing).
 
-    gpio_set_direction(GPIO_NUM_5, GPIO_MODE_OUTPUT);
-    while (1) {
-    
+    gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
+    while (1)
+    {
+
         int nofFlashes = 1;
-        if (networkIsConnected()) {
+        if (networkIsConnected())
+        {
             nofFlashes += 1;
         }
-        if (otaUpdateInProgress()) {
+        if (otaUpdateInProgress())
+        {
             nofFlashes += 2; // results in 3 (not connected) or 4 (connected) flashes
         }
-        
-        for (int i = 0; i < nofFlashes; i++) {
-            gpio_set_level(GPIO_NUM_5, 1);
+
+        for (int i = 0; i < nofFlashes; i++)
+        {
+            gpio_set_level(GPIO_NUM_2, 1);
             vTaskDelay(200 / portTICK_PERIOD_MS);
-            gpio_set_level(GPIO_NUM_5, 0);
+            gpio_set_level(GPIO_NUM_2, 0);
             vTaskDelay(200 / portTICK_PERIOD_MS);
         }
 
